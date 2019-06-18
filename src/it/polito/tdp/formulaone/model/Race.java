@@ -75,6 +75,8 @@ public class Race {
 		this.url = url;
 	}
 	
-	
+	public String toString() {
+		return name;
+	}
 
 }

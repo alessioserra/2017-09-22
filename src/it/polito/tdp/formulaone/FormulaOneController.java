@@ -1,9 +1,12 @@
 package it.polito.tdp.formulaone;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.formulaone.model.Accoppiamenti;
 import it.polito.tdp.formulaone.model.Model;
+import it.polito.tdp.formulaone.model.Season;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +25,7 @@ public class FormulaOneController {
     private URL location;
 
     @FXML // fx:id="boxAnno"
-    private ComboBox<?> boxAnno; // Value injected by FXMLLoader
+    private ComboBox<Season> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnSelezionaStagione"
     private Button btnSelezionaStagione; // Value injected by FXMLLoader
@@ -44,7 +47,15 @@ public class FormulaOneController {
 
     @FXML
     void doSelezionaStagione(ActionEvent event) {
-    	txtResult.setText("btn Seleziona stagione premuto");
+    		
+    	model.creaGrafo(boxAnno.getValue());
+    	txtResult.appendText("Pesi Archi maggiori: \n");
+    	
+    	List<Accoppiamenti> result = model.getBest();
+    	
+    	for (Accoppiamenti aaa : result)
+    		txtResult.appendText(aaa.getR1().toString() +" - "+aaa.getR2().toString()+" PESO: "+aaa.getPeso()+"\n");
+    	
     }
 
     @FXML
@@ -65,6 +76,7 @@ public class FormulaOneController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		boxAnno.getItems().addAll(model.getStagioni());
 		
 	}
 }
